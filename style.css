@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.container {
+  display: flex;
+}
+.users {
+  background-color: bisque;
+  width: 20vw;
+}
+.user {
+  background-color: rgb(205, 231, 255);
+}
+.user,
+.post {
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.posts {
+  width: 80vw;
+  background-color: pink;
+}
