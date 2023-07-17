@@ -8,7 +8,7 @@ function getUsers() {
     if (request.status >= 200 && request.status < 300) {
       let users = request.response;
       users.map((user) => {
-        document.querySelector(".users").innerHTML += `
+        document.querySelector(".names").innerHTML += `
         <div class="user" onclick="userClicked(${user.id})">
         <h4 class="userName">${user.name}</h4>
         <span class="userEmail">${user.email}</span>
@@ -32,10 +32,10 @@ function getPosts(usId) {
   request.onload = function () {
     if (request.status >= 200 && request.status < 300) {
       let posts = request.response;
-      document.querySelector(".posts").innerHTML = "";
-
+      document.querySelector(".start").innerHTML = "";
+      document.querySelector(".content").innerHTML = "";
       posts.map((post) => {
-        document.querySelector(".posts").innerHTML += `
+        document.querySelector(".content").innerHTML += `
         <div class="post">
         <h3 class="TitlePost">${post.title}</h3>
         <p class="bodyPost">${post.body}</p>
