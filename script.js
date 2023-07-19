@@ -1,40 +1,49 @@
-//GET Users Way 1
-async function getUsers() {
-  await fetch("https://jsonplaceholder.typicode.com/users")
-    .then((res) => res.json())
-    .then((res) => UsersData(res));
-}
-function UsersData(res) {
-  res.map((user) => {
-    document.querySelector(".names").innerHTML += `
-          <div class="user" onclick="userClicked(${user.id})">
-          <h4 class="userName">${user.name}</h4>
-          <span class="userEmail">${user.email}</span>
-          </div>`;
-  });
-}
-getUsers();
+// //GET Users Way 1
+// function getUsers() {
+//   return new Promise((resolve, reject) => {
+//     fetch("https://jsonplaceholder.typicode.com/users")
+//       .then((res) => {
+//         if (res.ok) {
+//           return res.json();
+//         }
+//       })
+//       .then((res) => {
+//         res.map((user) => {
+//           document.querySelector(".names").innerHTML += `
+//           <div class="user" onclick="userClicked(${user.id})">
+//           <h4 class="userName">${user.name}</h4>
+//           <span class="userEmail">${user.email}</span>
+//           </div>`;
+//         });
+//         resolve();
+//       });
+//   });
+// }
 
-//GET Posts Way 1
-async function getPosts(usId) {
-  await fetch("https://jsonplaceholder.typicode.com/posts?userId=" + usId)
-    .then((res) => res.json())
-    .then((res) => PostsData(res));
-}
-function PostsData(res) {
-  document.querySelector(".start").innerHTML = "";
-  document.querySelector(".content").innerHTML = "";
-  res.map((post) => {
-    document.querySelector(".content").innerHTML += `
-          <div class="post">
-          <h3 class="TitlePost">${post.title}</h3>
-          <p class="bodyPost">${post.body}</p>
-          </div>`;
-  });
-}
-function userClicked(id) {
-  getPosts(id);
-}
+// //GET Posts Way 1
+// function getPosts(usId) {
+//   fetch("https://jsonplaceholder.typicode.com/posts?userId=" + usId)
+//     .then((res) => res.json())
+//     .then((res) => PostsData(res));
+// }
+// function PostsData(res) {
+//   document.querySelector(".start").innerHTML = "";
+//   document.querySelector(".content").innerHTML = "";
+//   res.map((post) => {
+//     document.querySelector(".content").innerHTML += `
+//           <div class="post">
+//           <h3 class="TitlePost">${post.title}</h3>
+//           <p class="bodyPost">${post.body}</p>
+//           </div>`;
+//   });
+// }
+
+// function userClicked(id) {
+//   getPosts(id);
+// }
+// getUsers().then(() => {
+//   getPosts();
+// });
 
 // ============================================================================================
 
@@ -94,3 +103,44 @@ function userClicked(id) {
 // function userClicked(id) {
 //   getPosts(id);
 // }
+
+// ============================================================================================
+// GET Users Way 3
+function getUsersAxios() {
+  return new Promise((resolve, reject) => {
+    axios.get("https://jsonplaceholder.typicode.com/users").then((res) => {
+      let users = res.data;
+      users.map((user) => {
+        document.querySelector(".names").innerHTML += `
+          <div class="user" onclick="userClicked(${user.id})">
+          <h4 class="userName">${user.name}</h4>
+          <span class="userEmail">${user.email}</span>
+          </div>`;
+      });
+      resolve();
+    });
+  });
+}
+// GET Posts Way 3
+function getPostsAxios(usId) {
+  let url = "https://jsonplaceholder.typicode.com/posts?userId=" + usId;
+  axios.get(url).then((res) => {
+    let posts = res.data;
+
+    document.querySelector(".content").innerHTML = "";
+    posts.map((post) => {
+      document.querySelector(".content").innerHTML += `
+              <div class="post">
+              <h3 class="TitlePost">${post.title}</h3>
+              <p class="bodyPost">${post.body}</p>
+              </div>`;
+    });
+  });
+}
+function userClicked(id) {
+  document.querySelector(".start").innerHTML = "";
+  getPostsAxios(id);
+}
+getUsersAxios().then(() => {
+  getPostsAxios();
+});
